@@ -1,49 +1,30 @@
-Vagrant.configure("2") do |config|
-    # Base box
-    config.vm.box = "ubuntu/bionic64" # or any latest LTS you prefer
-  
-    config.vm.provision "shell", path: "scripts"
+VAGRANTFILE_API_VERSION = "2"
 
-    # Disable synced folder (optional)
-    config.vm.synced_folder ".", "/vagrant", disabled: true
+Vagrant.configure("2") do |config|
+    config.vm.box = "debian/bookworm64"
+    config.vm.synced_folder "./confs", "/vagrant"
   
-    # Common configuration for both
-    config.vm.provider "virtualbox" do |vb|
-      vb.memory = 512
-      vb.cpus = 1
-    end
-  
-    # Server VM
-    config.vm.define "aleferraS" do |s|
+    # Server
+    config.vm.define "aleferraS" , primary: true do |s|
       s.vm.hostname = "aleferraS"
       s.vm.network "private_network", ip: "192.168.56.110"
-      s.vm.provision "shell", inline: <<-SHELL
-        # Update and install dependencies
-        apt-get update -y
-        apt-get install -y curl sshpass
-  
-        # Install K3s in server mode
-        curl -sfL https://get.k3s.io | sh -
-  
-        # Save K3s token to /vagrant for worker to use
-        cp /var/lib/rancher/k3s/server/node-token /vagrant/node-token
-      SHELL
+      config.vm.provider "virtualbox" do |vb|
+        vb.name = "aleferraS"
+        vb.memory = 2048
+        vb.cpus = 2
+      end
+      s.vm.provision "shell", path: "scripts/init.sh", args: ["controller"]
     end
   
-    # Worker VM
-    config.vm.define "lfillouxSW" do |sw|
-      sw.vm.hostname = "lfillouxSW"
+    # Worker
+    config.vm.define "aleferraSW" do |sw|
+      sw.vm.hostname = "aleferraSW"
       sw.vm.network "private_network", ip: "192.168.56.111"
-      sw.vm.provision "shell", inline: <<-SHELL
-        apt-get update -y
-        apt-get install -y curl
-  
-        # Wait for node-token to exist (in case worker boots faster)
-        while [ ! -f /vagrant/node-token ]; do sleep 1; done
-  
-        # Join the K3s cluster as agent
-        curl -sfL https://get.k3s.io | K3S_URL=https://192.168.56.110:6443 K3S_TOKEN=$(cat /vagrant/node-token) sh -
-      SHELL
+      config.vm.provider "virtualbox" do |vb|
+        vb.name = "aleferraSW"
+        vb.memory = 1024
+        vb.cpus = 1
+      end
+      sw.vm.provision "shell", path: "scripts/init.sh", args: ["agent"]
     end
   end
-  
