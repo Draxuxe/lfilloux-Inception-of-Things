@@ -21,7 +21,7 @@ echo "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bookwor
 
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/oracle_vbox.gpg
 
-sudo apt update && sudo apt install virtualbox-7.0
+sudo apt update && sudo apt install virtualbox-7.1
 ```
 
 Activate nested virtualization (on your host pc):
