@@ -9,3 +9,6 @@ Once the VM created launch
 ```
 
 It will install all dependencies needed for the project
+
+K3s is for Kubernetes in local
+K3d is K3s in DOCKER
