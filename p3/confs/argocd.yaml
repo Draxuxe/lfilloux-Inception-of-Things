@@ -1,13 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: playground-app
+  name: wil42-playground
+  namespace: argocd
 spec:
   project: default
   source:
-    repoURL: 'https://hub.docker.com/r/wil42/playground'
+    repoURL: 'https://github.com/Draxuxe/lfilloux-IoT.git'
     targetRevision: HEAD
-    path: k8s
+    path: deploy/
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: dev
