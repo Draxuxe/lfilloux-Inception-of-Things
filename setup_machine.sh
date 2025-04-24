@@ -9,7 +9,7 @@ sudo apt install vagrant -y
 # Install VBox
 sudo apt install -y wget gnupg2 apt-transport-https ca-certificates dkms build-essential linux-headers-$(uname -r)
 echo "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bookworm contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
-wget -O- -q https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmour -o /usr/share/keyrings/oracle_vbox_2016.gpg
+wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/oracle_vbox.gpg
 sudo apt update
 sudo apt install virtualbox-7.1 -y
 
