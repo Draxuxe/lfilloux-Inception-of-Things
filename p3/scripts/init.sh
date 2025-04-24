@@ -7,9 +7,6 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 kubectl apply -n argocd -f ./confs/argocd.yaml
 kubectl apply -n dev -f ./confs/dev/deployement.yaml
 
-kubectl patch svc argocd-server -n argocd \
-  -p '{"spec": {"type": "NodePort", "ports": [{"port": 443, "nodePort": 32443, "targetPort": 8080}]}}'
-
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d > .argocd_pass
 
 kubectl wait --for=condition=Ready pods --all -n argocd
