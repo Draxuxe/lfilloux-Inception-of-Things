@@ -40,3 +40,6 @@ rm argocd-linux-$(dpkg --print-architecture)
 
 # Add hosts for p2
 echo 192.168.56.110 app1.com app2.com app3.com >> /etc/hosts
+
+# Giving permissions for scripts
+chmod +x ./p3/scripts/init.sh

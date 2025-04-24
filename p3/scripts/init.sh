@@ -1,3 +1,5 @@
+#!/bin/bash
+
 k3d cluster create iot-cluster --wait
 
 kubectl create namespace argocd
