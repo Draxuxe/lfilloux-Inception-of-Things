@@ -5,6 +5,7 @@ kubectl create namespace dev
 
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 kubectl apply -n argocd -f ./confs/argocd.yaml
+kubectl apply -n dev -f ./confs/dev/deployement.yaml
 
 kubectl patch svc argocd-server -n argocd \
   -p '{"spec": {"type": "NodePort", "ports": [{"port": 443, "nodePort": 32443, "targetPort": 8080}]}}'

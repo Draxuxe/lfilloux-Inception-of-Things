@@ -6,11 +6,11 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/Draxuxe/lfilloux-IoT.git'
+    repoURL: https://github.com/Draxuxe/lfilloux-Inception-of-Things
     targetRevision: HEAD
-    path: deploy/
+    path: p3/confs/dev/
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: https://kubernetes.default.svc
     namespace: dev
   syncPolicy:
     automated:
